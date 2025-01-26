@@ -17,7 +17,6 @@ type Props = {
     background_color,
     label,
     watch,
-    attachment,
   }: updateCardProps) => void;
   children: React.ReactNode;
 };
