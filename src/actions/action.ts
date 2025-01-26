@@ -4,6 +4,7 @@ import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { revalidatePath } from "next/cache";
+import { ConvexError } from "convex/values";
 
 export const getWorkspaceMembers = async ({
   workspaceId,
@@ -17,7 +18,8 @@ export const getWorkspaceMembers = async ({
 
     return members;
   } catch (error) {
-    throw new Error("Something went wrong");
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
   }
 };
 
@@ -33,7 +35,8 @@ export const getWorkspace = async ({
 
     return workspace;
   } catch (error) {
-    throw new Error("Something went wrong");
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
   }
 };
 
@@ -54,7 +57,8 @@ export const removeMemberFromWorkspace = async ({
 
     revalidatePath(path);
   } catch (error) {
-    throw new Error("Something went wrong");
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
   }
 };
 
@@ -75,7 +79,8 @@ export const addMemberFromWorkspace = async ({
 
     revalidatePath(path);
   } catch (error) {
-    throw new Error("Something went wrong");
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
   }
 };
 
@@ -96,7 +101,8 @@ export const changeWorkspaceVisibility = async ({
 
     revalidatePath(path);
   } catch (error) {
-    throw new Error("Something went wrong");
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
   }
 };
 
@@ -117,7 +123,8 @@ export const changeWorkspaceBoardCreation = async ({
 
     revalidatePath(path);
   } catch (error) {
-    throw new Error("Something went wrong");
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
   }
 };
 
@@ -138,7 +145,8 @@ export const changeWorkspaceBoardDeletion = async ({
 
     revalidatePath(path);
   } catch (error) {
-    throw new Error("Something went wrong");
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
   }
 };
 
@@ -159,6 +167,7 @@ export const changeWorkspaceBoardSharing = async ({
 
     revalidatePath(path);
   } catch (error) {
-    throw new Error("Something went wrong");
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
   }
 };

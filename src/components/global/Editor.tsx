@@ -2,19 +2,19 @@ import { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
 type TextEditorProps = {
-  onValueChange: (value: string) => void
+  onValueChange: (value: string) => void;
   description?: string;
-}
+};
 
 export function TextEditor({ onValueChange, description }: TextEditorProps) {
-  const editorRef = useRef(null); 
+  const editorRef = useRef(null);
 
   return (
     <>
       <Editor
         apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
         onInit={(evt, editor) => {
-          // @ts-ignore
+          // @ts-expect-error Expected error
           editorRef.current = editor;
         }}
         onBlur={() => {}}

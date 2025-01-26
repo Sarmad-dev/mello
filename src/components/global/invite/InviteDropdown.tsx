@@ -4,7 +4,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import React, { useState } from "react";
+import React from "react";
 import CardMemberInvite from "./CardMemberInvite";
 
 type InviteMembersProps = {

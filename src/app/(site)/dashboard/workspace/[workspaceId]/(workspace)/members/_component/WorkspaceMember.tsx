@@ -9,6 +9,7 @@ import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { removeMemberFromWorkspace } from "@/actions/action";
 import { Separator } from "@/components/ui/separator";
+import { ConvexError } from "convex/values";
 
 type Props = {
   member: Doc<"users">;
@@ -31,7 +32,8 @@ const WorkspaceMember = ({ member, workspace }: Props) => {
 
       toast.success("Member Removed");
     } catch (error) {
-      throw new Error("Something went wrong");
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong: ${error.message}`);
     }
   };
 

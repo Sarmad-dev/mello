@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Form,
   FormControl,
@@ -27,16 +27,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { api } from "../../../../convex/_generated/api";
-import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { fetchMutation } from "convex/nextjs";
 
 const CreateWorkspaceForm = ({
   setOpen,
-  clerkId
+  clerkId,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  clerkId: string
+  clerkId: string;
 }) => {
   const router = useRouter();
 
@@ -60,7 +59,7 @@ const CreateWorkspaceForm = ({
         name,
         description,
         type,
-        clerkId
+        clerkId,
       });
 
       router.push(`/dashboard/workspace/${workspaceId}`);

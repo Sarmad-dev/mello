@@ -10,11 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { BoardSharing, Visibility } from "@/lib/constants";
+import { BoardSharing } from "@/lib/constants";
 import { toast } from "sonner";
-import {
-  changeWorkspaceBoardSharing,
-} from "@/actions/action";
+import { changeWorkspaceBoardSharing } from "@/actions/action";
+import { ConvexError } from "convex/values";
 
 type Props = {
   workspacesSettings: Doc<"workspaceSettings">;
@@ -31,7 +30,8 @@ const BoardSharingDropdown = ({ workspacesSettings }: Props) => {
 
       toast.success(`Board Sharing change to ${value}`);
     } catch (error) {
-      throw new Error("Something went wrong");
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong: ${error.message}`);
     }
   };
   return (

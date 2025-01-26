@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Visibility } from "@/lib/constants";
 import { toast } from "sonner";
 import { changeWorkspaceVisibility } from "@/actions/action";
+import { ConvexError } from "convex/values";
 
 type Props = {
   workspacesSettings: Doc<"workspaceSettings">;
@@ -29,10 +30,11 @@ const VisibilityDropdown = ({ workspacesSettings }: Props) => {
 
       toast.success(`Visibility change to ${value}`);
     } catch (error) {
-      throw new Error("Something went wrong");
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong: ${error.message}`);
     }
   };
-  
+
   return (
     <div className="flex flex-col gap-2">
       <h4 className="font-semibold">Workspace Visibility</h4>

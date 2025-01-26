@@ -5,8 +5,6 @@ import { Id } from "../../../../../../../../../convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Lock } from "lucide-react";
 import { BoardLinks } from "@/lib/constants";
-import Link from "next/link";
-import Image from "next/image";
 import BoardLinkComponent from "./_component/BoardLinkComponent";
 
 type BoardLayoutProps = {

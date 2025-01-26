@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { BoardCreation } from "@/lib/constants";
 import { toast } from "sonner";
 import { changeWorkspaceBoardCreation } from "@/actions/action";
+import { ConvexError } from "convex/values";
 
 type Props = {
   workspacesSettings: Doc<"workspaceSettings">;
@@ -29,7 +30,8 @@ const BoardCreationDropdown = ({ workspacesSettings }: Props) => {
 
       toast.success(`Board Creation change to ${value}`);
     } catch (error) {
-      throw new Error("Something went wrong");
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong: ${error.message}`);
     }
   };
   return (
