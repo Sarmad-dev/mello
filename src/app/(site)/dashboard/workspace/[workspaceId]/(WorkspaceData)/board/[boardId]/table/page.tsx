@@ -23,7 +23,9 @@ const TablePage = async ({ params }: TablePageProps) => {
         width: "calc(100vw - 300px)",
       }}
     >
-      <BoardListsTable lists={lists!} />
+      {lists && (
+        <BoardListsTable lists={lists.filter((list) => list !== null)} />
+      )}
     </div>
   );
 };
