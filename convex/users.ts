@@ -36,10 +36,18 @@ export const createUser = mutation({
       username,
     });
 
-    await db.insert("workspaces", {
+    const workspaceId = await db.insert("workspaces", {
       admin: userId,
       name: "Trello workspace",
       type: "business",
+    });
+
+    await db.insert("workspaceSettings", {
+      workspace: workspaceId,
+      visibility: "public",
+      create_board: "admin",
+      share_board: "admin",
+      delete_board: "admin",
     });
 
     return userId;
