@@ -32,7 +32,7 @@ const ListItem = ({ list }: Props) => {
         <AddCard listId={list._id} />
         {listCards &&
           listCards.length > 0 &&
-          listCards.map((card) => <Card card={card} key={card._id} />)}
+          listCards.map((card) => <Card cardId={card._id} key={card._id} />)}
       </div>
     </div>
   );
