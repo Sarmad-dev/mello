@@ -25,7 +25,7 @@ import OAuthForm from "./OAuthForm";
 type AuthFormProps<T extends FieldValues> = {
   schema: ZodType<T>;
   defaultValues: T;
-  onSubmit: (data: T) => Promise<{ success: boolean; data: T }>;
+  onSubmit?: (data: T) => Promise<void>;
   formType: "SIGN_IN" | "SIGN_UP";
 };
 
@@ -42,7 +42,7 @@ const AuthForm = <T extends FieldValues>({
   });
 
   const handleSubmit: SubmitHandler<T> = async (values: T) => {
-    await onSubmit(values);
+    if (onSubmit) await onSubmit(values);
   };
 
   const buttonText = formType === "SIGN_IN" ? "Sign In" : "Sign Up";

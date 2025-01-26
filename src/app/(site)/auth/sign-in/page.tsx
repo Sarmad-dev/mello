@@ -11,7 +11,6 @@ const SignIn = () => {
         formType="SIGN_IN"
         schema={SignInFormSchema}
         defaultValues={{ email: "", password: "" }}
-        onSubmit={(data) => Promise.resolve({ success: true, data })}
       />
     </AuthCard>
   );
