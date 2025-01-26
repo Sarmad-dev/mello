@@ -1,12 +1,12 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { useMutation } from "convex/react";
 import React, { useState } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { Doc, Id } from "../../../../convex/_generated/dataModel";
 import { fetchQuery } from "convex/nextjs";
 import { addMemberFromWorkspace } from "@/actions/action";
 import { toast } from "sonner";
+import { ConvexError } from "convex/values";
 
 const InviteForm = ({ workspaceId }: { workspaceId: Id<"workspaces"> }) => {
   const [name, setName] = useState("");
@@ -22,11 +22,10 @@ const InviteForm = ({ workspaceId }: { workspaceId: Id<"workspaces"> }) => {
 
       toast.success("Member added");
     } catch (error) {
-      throw new Error("Something went wrong");
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong: ${error.message}`);
     }
   };
-
-  const mutate = useMutation(api.workspaces.updateMemebrsInWorkspace);
 
   return (
     <div className="flex flex-col gap-6">

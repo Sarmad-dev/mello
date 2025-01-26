@@ -10,12 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { BoardCreation, BoardDeletion } from "@/lib/constants";
+import { BoardDeletion } from "@/lib/constants";
 import { toast } from "sonner";
-import {
-  changeWorkspaceBoardCreation,
-  changeWorkspaceBoardDeletion,
-} from "@/actions/action";
+import { changeWorkspaceBoardDeletion } from "@/actions/action";
+import { ConvexError } from "convex/values";
 
 type Props = {
   workspacesSettings: Doc<"workspaceSettings">;
@@ -32,7 +30,8 @@ const BoardDeletionDropdown = ({ workspacesSettings }: Props) => {
 
       toast.success(`Board deletion change to ${value}`);
     } catch (error) {
-      throw new Error("Something went wrong");
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong: ${error.message}`);
     }
   };
   return (
