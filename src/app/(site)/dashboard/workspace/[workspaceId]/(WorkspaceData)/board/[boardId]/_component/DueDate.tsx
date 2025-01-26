@@ -1,17 +1,18 @@
-"use client"
+"use client";
 import { Checkbox } from "@/components/ui/checkbox";
 import { fetchMutation } from "convex/nextjs";
 import React, { useState } from "react";
 import { api } from "../../../../../../../../../../convex/_generated/api";
 import { Id } from "../../../../../../../../../../convex/_generated/dataModel";
 import { toast } from "sonner";
+import { ConvexError } from "convex/values";
 
 type Props = {
   date: {
     date: string;
     status: boolean;
   };
-  cardId: Id<"cards">
+  cardId: Id<"cards">;
 };
 
 const DueDate = ({ date: { date, status }, cardId }: Props) => {
@@ -21,12 +22,14 @@ const DueDate = ({ date: { date, status }, cardId }: Props) => {
     try {
       await fetchMutation(api.cards.changeDateStatus, {
         cardId: cardId as Id<"cards">,
-        status
+        status,
       });
 
-      toast.success("Status updated")
+      toast.success("Status updated");
     } catch (error) {
-      throw new Error("Something went wrong");
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong ${error.message}`);
+      else throw new Error("Something went wrong");
     }
   };
 
@@ -36,9 +39,9 @@ const DueDate = ({ date: { date, status }, cardId }: Props) => {
         checked={dateStatus}
         onCheckedChange={() => {
           setDateStatus((prevStatus) => {
-            handleChangeDateStatus(!prevStatus)
+            handleChangeDateStatus(!prevStatus);
 
-            return !prevStatus
+            return !prevStatus;
           });
         }}
       />

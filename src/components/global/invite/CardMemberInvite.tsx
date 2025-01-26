@@ -5,6 +5,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { fetchMutation } from "convex/nextjs";
 import { useParams, useSearchParams } from "next/navigation";
+import { ConvexError } from "convex/values";
 
 const CardMemberInvite = () => {
   const [name, setName] = useState("");
@@ -17,7 +18,9 @@ const CardMemberInvite = () => {
     workspaceId: workspaceId as Id<"workspaces">,
   });
 
-  const card = useQuery(api.cards.getCardById, { cardId: cardId as Id<"cards"> });
+  const card = useQuery(api.cards.getCardById, {
+    cardId: cardId as Id<"cards">,
+  });
 
   const handleInviteMembers = async (memberId: Id<"users">) => {
     try {
@@ -26,7 +29,9 @@ const CardMemberInvite = () => {
         memberId,
       });
     } catch (error) {
-      throw new Error("Something went wrong");
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong: ${error.message}`);
+      else throw new Error("Something went wrong");
     }
   };
   return (

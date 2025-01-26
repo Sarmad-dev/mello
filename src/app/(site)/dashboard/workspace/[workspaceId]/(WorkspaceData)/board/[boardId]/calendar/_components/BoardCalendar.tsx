@@ -46,7 +46,7 @@ const BoardCalendar = ({ boardId }: Props) => {
         boardId,
       });
 
-      const cardIds = lists?.flatMap((list) => list.cards); // Extract all cards from each list
+      const cardIds = lists?.flatMap((list) => list?.cards); // Extract all cards from each list
 
       const cards: Doc<"cards">[] = [];
 

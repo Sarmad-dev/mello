@@ -14,7 +14,7 @@ type OpenCardProps = {
 };
 
 const OpenCardDropdown = ({ card }: OpenCardProps) => {
-  const [cardId, setCardId] = useQueryState("cardId", {
+  const [, setCardId] = useQueryState("cardId", {
     defaultValue: "",
     history: "push",
     clearOnDefault: true,

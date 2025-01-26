@@ -190,11 +190,18 @@ export const addCardToEmptyList = mutation({
   },
   handler: async ({ db }, { activeCardId, activeListId, overListId }) => {
     console.log("Active List ID: ", activeListId);
+    console.log("Active Card ID: ", activeCardId);
+    console.log("Over List ID: ", overListId);
+
     const activeList = await db.get(activeListId);
+
+    console.log("Active List: ", activeList);
 
     const updateActiveListCards = activeList?.cards?.filter(
       (card) => card !== activeCardId
     );
+
+    console.log("Active List Cards: ", updateActiveListCards);
 
     await db.patch(activeListId, { cards: updateActiveListCards });
 

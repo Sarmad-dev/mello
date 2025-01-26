@@ -5,6 +5,7 @@ import { updateCardProps } from "@/lib/types";
 import { fetchMutation } from "convex/nextjs";
 import { api } from "../../../../../../../../../../convex/_generated/api";
 import { toast } from "sonner";
+import { ConvexError } from "convex/values";
 
 type Props = {
   card: Doc<"cards">;
@@ -18,7 +19,6 @@ type Props = {
     background_color,
     label,
     watch,
-    attachment,
   }: updateCardProps) => void;
 };
 
@@ -27,22 +27,20 @@ const Label = ({ card, label, handleCardLabelsUpdate }: Props) => {
 
   useEffect(() => {
     const changeCheckedState = () => {
-      const cardState = card.labels?.map(
-        (cardLabel) => {
-          if (cardLabel.id === label.id) return true
-        }
-      );
+      const cardState = card.labels?.map((cardLabel) => {
+        if (cardLabel.id === label.id) return true;
+      });
 
       if (cardState?.includes(true)) {
         setCheckedState(true);
-        return
+        return;
       }
 
-      setCheckedState(false)
+      setCheckedState(false);
     };
 
     changeCheckedState();
-  }, [label]);
+  }, [label, card.labels]);
 
   const handleRemoveLabel = async () => {
     try {
@@ -51,9 +49,11 @@ const Label = ({ card, label, handleCardLabelsUpdate }: Props) => {
         id: label.id,
       });
 
-      toast.success("Label removed from cart")
+      toast.success("Label removed from cart");
     } catch (error) {
-      throw new Error("Something went wrong");
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong: ${error.message}`);
+      else throw new Error("Something went wrong");
     }
   };
 

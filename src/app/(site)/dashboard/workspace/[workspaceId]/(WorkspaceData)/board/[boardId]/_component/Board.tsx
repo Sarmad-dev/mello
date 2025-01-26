@@ -7,7 +7,7 @@ import {
 import AddList from "./AddList";
 import List from "./List";
 import {
-  closestCenter,
+  closestCorners,
   DragEndEvent,
   DragOverEvent,
   DragOverlay,
@@ -95,6 +95,7 @@ const Board = ({ board, lists }: Props) => {
     }
 
     if (activeType === "card" && overType === "card") {
+      if (active.id === over.id) return;
       const activeList = boardLists?.find((list) =>
         list.cards?.includes(active.id as Id<"cards">)
       );
@@ -134,6 +135,78 @@ const Board = ({ board, lists }: Props) => {
 
           return updatedLists;
         });
+      } else {
+        setBoardLists((prevLists) => {
+          if (!prevLists) return null;
+          const updatedLists = prevLists.map((list) => {
+            if (list._id === activeList?._id) {
+              const updatedCards = list.cards?.filter(
+                (card) => card !== active.id
+              );
+              return {
+                ...list,
+                cards: updatedCards,
+              };
+            } else if (list._id === overList?._id) {
+              const updatedCards = [
+                ...(list.cards?.slice(0, overCardIndex) ?? []),
+                active.id as Id<"cards">,
+                ...(list.cards?.slice(overCardIndex) ?? []),
+              ] as Id<"cards">[];
+              return {
+                ...list,
+                cards: updatedCards,
+              };
+            }
+            return list;
+          });
+          return updatedLists;
+        });
+      }
+    }
+
+    if (activeType === "card" && overType === "list") {
+      const overList = boardLists?.find((list) => list._id === over.id);
+      const activeList = boardLists?.find((list) =>
+        list.cards?.includes(active.id as Id<"cards">)
+      );
+
+      if (over.id === activeListId) return;
+
+      if (over.id !== overListId) {
+        setActiveListId(activeList?._id as Id<"lists">);
+        setOverListId(over.id as Id<"lists">);
+
+        console.log("Active Over List ID: ", activeList?._id);
+        console.log("Over Over List ID: ", overList?._id);
+
+        if (overList?.cards?.length === 0 && activeList?._id !== over.id) {
+          setBoardLists((prevLists) => {
+            if (!prevLists) return null;
+
+            const updatedLists = prevLists.map((list) => {
+              if (list._id === activeList?._id) {
+                return {
+                  ...list,
+                  cards: list.cards?.filter(
+                    (card) => card !== active.id
+                  ) as Id<"cards">[],
+                };
+              } else if (list._id === over?.id) {
+                return {
+                  ...list,
+                  cards: [active.id as Id<"cards">],
+                };
+              }
+
+              return list;
+            });
+
+            return updatedLists;
+          });
+        }
+
+        return;
       }
     }
   };
@@ -155,37 +228,39 @@ const Board = ({ board, lists }: Props) => {
     }
 
     if (activeType === "card" && overType === "card") {
-      if (activeListId === overListId) {
-        setBoardLists((prevLists) => {
-          if (!prevLists) return null;
+      const overList = boardLists?.find((list) => list._id === overListId);
 
-          const updatedLists = prevLists.map((list) => {
-            if (list._id === activeListId && list._id === overListId) {
-              const listWitoutActiveCard = list.cards?.filter(
-                (card) => card !== active.id
-              );
-              return {
-                ...list,
-                cards: [
-                  ...(listWitoutActiveCard?.slice(0, overIndex!) ?? []),
-                  active.id as Id<"cards">,
-                  ...(listWitoutActiveCard?.slice(overIndex!) ?? []),
-                ] as Id<"cards">[],
-              };
-            }
+      if (overList?.cards?.length === 1) {
+        console.log("Active End List ID: ", activeListId);
+        console.log("Over End List ID: ", overListId);
 
-            return list;
-          });
-
-          return updatedLists;
+        await fetchMutation(api.lists.addCardToEmptyList, {
+          activeCardId: active.id as Id<"cards">,
+          activeListId: activeListId!,
+          overListId: overListId!,
         });
 
+        return;
+      }
+      if (activeListId === overListId) {
         await fetchMutation(api.cards.updateListCards, {
           activeCardId: active.id as Id<"cards">,
           listId: activeListId!,
           overCardIndex: overIndex!,
         });
       }
+
+      if (activeListId !== overListId) {
+        await fetchMutation(api.lists.updateListCards, {
+          activeListId: activeListId!,
+          overListId: overListId!,
+          activeCardId: active.id as Id<"cards">,
+          overCardIndex: overIndex!,
+        });
+      }
+    }
+
+    if (activeType === "card" && overType === "list") {
     }
   };
 
@@ -200,7 +275,7 @@ const Board = ({ board, lists }: Props) => {
   return (
     <DNDContextDynamic
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={closestCorners}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
