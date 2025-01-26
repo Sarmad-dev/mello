@@ -1,6 +1,6 @@
 import InviteForm from "@/components/global/invite/InviteForm";
 import React from "react";
-import { Id } from "../../../../../../../../convex/_generated/dataModel";
+import { Id } from "../../../../../../../../../convex/_generated/dataModel";
 import {
   Dialog,
   DialogContent,
