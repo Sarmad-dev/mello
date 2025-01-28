@@ -85,39 +85,39 @@ h2 {
 }
 
 .rbc-calendar {
-  background-color: #1d2125;
-  font-family: "Arial", sans-serif;
-  border: none;
-  color: white;
+  background-color: #1d2125 !important;
+  font-family: "Arial", sans-serif !important;
+  border: none !important;
+  color: white !important;
 }
 
 .rbc-event {
-  background-color: #4caf50;
-  color: white;
-  border-radius: 5px;
-  padding: 2px 4px;
+  background-color: #4caf50 !important;
+  color: white !important;
+  border-radius: 5px !important;
+  padding: 2px 4px !important;
 }
 
 .rbc-toolbar {
-  background-color: #1d2125;
-  color: white;
-  padding: 10px;
+  background-color: #1d2125 !important;
+  color: white !important;
+  padding: 10px !important;
 }
 
 .rbc-today {
-  background-color: #1c2b41;
+  background-color: #1c2b41 !important;
 }
 
 .rbc-month-view {
-  gap: 8px;
+  gap: 8px !important;
 }
 
 .rbc-row-bg {
-  display: flex;
-  gap: 8px;
+  display: flex !important;
+  gap: 8px !important;
 }
 
 .rbc-day-bg {
-  border-radius: 4px;
-  background-color: #282d33;
+  border-radius: 4px !important;
+  background-color: #282d33 !important;
 }

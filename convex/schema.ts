@@ -45,6 +45,7 @@ export default defineSchema({
     background_colors: v.array(v.string()),
     lists: v.optional(v.array(v.id("lists"))),
     workspace: v.id("workspaces"),
+    members: v.optional(v.id("users")),
   }),
 
   lists: defineTable({

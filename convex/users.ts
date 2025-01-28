@@ -91,7 +91,12 @@ export const getUserByClerkId = query({
 export const deleteUser = mutation({
   args: { id: v.id("users") },
   handler: async ({ db }, { id }) => {
-    await db.delete(id);
+    try {
+      await db.delete(id);
+    } catch (error) {
+      if (error instanceof ConvexError)
+        throw new Error(`Something went wrong: ${error.message}`);
+    }
   },
 });
 

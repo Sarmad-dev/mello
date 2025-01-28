@@ -1,4 +1,3 @@
-
 import React from "react";
 import HeaderDropdown from "./HeaderDropdown";
 import {
@@ -13,7 +12,6 @@ import { currentUser } from "@clerk/nextjs/server";
 import { fetchQuery } from "convex/nextjs";
 
 const WorkspaceDropdown = async () => {
-  
   const user = await currentUser();
   const workspaces = await fetchQuery(api.workspaces.getUserWorkspaces, {
     clerkId: user?.id as string,
@@ -23,7 +21,7 @@ const WorkspaceDropdown = async () => {
     <HeaderDropdown title="Workspace">
       <>
         <ActiveWorkspace workspaces={workspaces!} />
-        <DropdownMenuLabel className="text-primary-dark text-xs">
+        <DropdownMenuLabel className="text-primary-dark text-sm">
           Your workspaces
         </DropdownMenuLabel>
         {workspaces?.map((workspace) => (
