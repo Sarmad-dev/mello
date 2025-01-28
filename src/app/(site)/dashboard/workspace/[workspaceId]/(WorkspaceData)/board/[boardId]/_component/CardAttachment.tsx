@@ -1,30 +1,13 @@
 import React from "react";
 import { Id } from "../../../../../../../../../../convex/_generated/dataModel";
 import { api } from "../../../../../../../../../../convex/_generated/api";
-import Image from "next/image";
-import { fetchQuery } from "convex/nextjs";
-import probe from "probe-image-size";
+import { useQuery } from "convex/react";
+import CardImage from "./CardImage";
 
-const CardAttachment = async ({ storageId }: { storageId: Id<"_storage"> }) => {
-  const image = await fetchQuery(api.cards.getCardImageById, { storageId });
-  const dimensions = probe(image!);
+const CardAttachment = ({ storageId }: { storageId: Id<"_storage"> }) => {
+  const image = useQuery(api.cards.getCardImageById, { storageId });
 
-  return (
-    <>
-      {image && (
-        <div className="w-full max-w-[500px]">
-          <Image
-            src={image}
-            alt="preview"
-            priority
-            width={(await dimensions).width}
-            height={(await dimensions).height}
-            layout="responsive"
-          />
-        </div>
-      )}
-    </>
-  );
+  return <>{image && <CardImage image={image} width={800} height={500} />}</>;
 };
 
 export default CardAttachment;
