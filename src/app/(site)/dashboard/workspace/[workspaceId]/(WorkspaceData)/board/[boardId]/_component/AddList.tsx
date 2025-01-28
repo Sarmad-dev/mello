@@ -4,9 +4,8 @@ import { Doc } from "../../../../../../../../../../convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { fetchMutation } from "convex/nextjs";
-import { api } from "../../../../../../../../../../convex/_generated/api";
 import { toast } from "sonner";
+import { addListToBoard } from "@/actions/action";
 
 type AddListProps = {
   lists: Doc<"lists">[];
@@ -18,19 +17,15 @@ const AddList = ({ lists, board }: AddListProps) => {
   const [listValue, setListValue] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const addListToBoard = async (title: string) => {
+  const handleAddListToBoard = async (title: string) => {
     setLoading(true);
     try {
-      await fetchMutation(api.lists.addListToBoard, {
-        title,
-        boardId: board._id,
-      });
+      await addListToBoard(title, board);
 
-      
       toast.success("List added to board");
 
       setAddList(true);
-      setListValue("")
+      setListValue("");
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -63,7 +58,7 @@ const AddList = ({ lists, board }: AddListProps) => {
           <div className="flex gap-3">
             <Button
               className="bg-blue-500 hover:bg-blue-500/90 text-white"
-              onClick={() => addListToBoard(listValue)}
+              onClick={() => handleAddListToBoard(listValue)}
             >
               {loading ? <Loader2 className="animate-spin" /> : "Save"}
             </Button>

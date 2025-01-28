@@ -2,7 +2,7 @@
 
 import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
+import { Doc, Id } from "../../convex/_generated/dataModel";
 import { revalidatePath } from "next/cache";
 import { ConvexError } from "convex/values";
 
@@ -166,6 +166,47 @@ export const changeWorkspaceBoardSharing = async ({
     });
 
     revalidatePath(path);
+  } catch (error) {
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
+  }
+};
+
+export const addListToBoard = async (title: string, board: Doc<"boards">) => {
+  try {
+    await fetchMutation(api.lists.addListToBoard, {
+      title,
+      boardId: board._id,
+    });
+
+    revalidatePath(
+      `/dashboard/workspace/${board.workspace}/board/${board._id}`
+    );
+  } catch (error) {
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
+  }
+};
+
+export const getBoard = async (boardId: Id<"boards">) => {
+  try {
+    const board = await fetchQuery(api.boards.getBoardById, {
+      boardId,
+    });
+
+    return board;
+  } catch (error) {
+    if (error instanceof ConvexError)
+      throw new Error(`Something went wrong: ${error.message}`);
+  }
+};
+
+export const getLists = async (boardId: Id<"boards">) => {
+  try {
+    const lists = await fetchQuery(api.lists.getListsByBoardId, {
+      boardId: boardId as Id<"boards">,
+    });
+    return lists;
   } catch (error) {
     if (error instanceof ConvexError)
       throw new Error(`Something went wrong: ${error.message}`);
