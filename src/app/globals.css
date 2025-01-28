@@ -104,12 +104,13 @@ h2 {
   padding: 10px !important;
 }
 
-.rbc-today {
-  background-color: #1c2b41 !important;
-}
-
 .rbc-month-view {
   gap: 8px !important;
+  border: none !important;
+}
+
+.rbc-month-row {
+  border: none !important;
 }
 
 .rbc-row-bg {
@@ -118,6 +119,29 @@ h2 {
 }
 
 .rbc-day-bg {
+  border: none !important;
+}
+
+.rbc-day-bg.rbc-today {
+  background-color: #121b27 !important;
+}
+
+.rbc-day-bg {
   border-radius: 4px !important;
   background-color: #282d33 !important;
+}
+
+.rbc-btn-group > button {
+  color: white !important;
+  background-color: #282d33 !important;
+  border: none !important;
+}
+
+.rbc-btn-group > button:hover {
+  background-color: #23272c;
+}
+
+.rbc-header {
+  border: none !important;
+  background-color: #1d2125 !important;
 }

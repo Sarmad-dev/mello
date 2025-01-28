@@ -50,6 +50,12 @@ export const createUser = mutation({
       delete_board: "admin",
     });
 
+    const user = await db.get(userId);
+
+    await db.patch(userId, {
+      workspaces: [...(user?.workspaces ?? []), workspaceId],
+    });
+
     return userId;
   },
 });
