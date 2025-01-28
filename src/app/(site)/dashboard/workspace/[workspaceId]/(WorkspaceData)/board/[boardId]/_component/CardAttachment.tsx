@@ -7,7 +7,9 @@ import CardImage from "./CardImage";
 const CardAttachment = ({ storageId }: { storageId: Id<"_storage"> }) => {
   const image = useQuery(api.cards.getCardImageById, { storageId });
 
-  return <>{image && <CardImage image={image} width={800} height={500} />}</>;
+  return (
+    <>{image && <CardImage image={image} width={16 | 9} height={9 | 16} />}</>
+  );
 };
 
 export default CardAttachment;
