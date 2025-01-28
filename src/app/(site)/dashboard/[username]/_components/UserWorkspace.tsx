@@ -25,7 +25,7 @@ const UserWorkspace = ({ workspaceId }: { workspaceId: Id<"workspaces"> }) => {
         {showBoards ? <ChevronUp /> : <ChevronDown />}
       </div>
       {showBoards && (
-        <div className="p-1flex flex-col gap-1">
+        <div className="p-1 flex flex-col gap-1">
           {workspace?.boards &&
             workspace.boards.length > 0 &&
             workspace.boards.map((boardId) => {

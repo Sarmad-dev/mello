@@ -224,7 +224,7 @@ const CardDetailDialog = () => {
                 )}
               </div>
 
-              <div className="flex gap-3 flex-wrap">
+              <div className="flex gap-3 flex-wrap mt-10">
                 {card?.attachment &&
                   card.attachment.length > 0 &&
                   card.attachment.map((attachment) => (

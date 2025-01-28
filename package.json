@@ -42,6 +42,7 @@
     "npm": "^11.0.0",
     "nuqs": "^2.2.3",
     "prismjs": "^1.29.0",
+    "probe-image-size": "^7.2.3",
     "react": "^19.0.0-rc-66855b96-20241106",
     "react-big-calendar": "^1.17.1",
     "react-calendar": "^5.1.0",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@types/lodash": "^4.17.14",
     "@types/node": "^20",
+    "@types/probe-image-size": "^7.2.5",
     "@types/react": "^18",
     "@types/react-big-calendar": "^1.16.0",
     "@types/react-dom": "^18",
