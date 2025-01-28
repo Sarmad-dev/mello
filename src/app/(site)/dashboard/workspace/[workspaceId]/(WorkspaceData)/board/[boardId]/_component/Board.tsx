@@ -261,6 +261,11 @@ const Board = ({ board, lists }: Props) => {
     }
 
     if (activeType === "card" && overType === "list") {
+      await fetchMutation(api.lists.addCardToEmptyList, {
+        activeCardId: active.id as Id<"cards">,
+        activeListId: activeListId!,
+        overListId: overListId!,
+      });
     }
   };
 
