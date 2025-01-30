@@ -10,12 +10,21 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { useDndContext } from "@dnd-kit/core";
 
 type Props = {
   list: Doc<"lists">;
+  isOver?: boolean;
+  overCardIndex?: number | null;
+  activeCard?: JSX.Element;
 };
 
-const List = ({ list }: Props) => {
+const List = ({
+  list,
+  isOver,
+  overCardIndex,
+  activeCard: ActiveCard,
+}: Props) => {
   const {
     attributes,
     listeners,
@@ -38,9 +47,13 @@ const List = ({ list }: Props) => {
     transition,
   };
 
+  const { active, over } = useDndContext();
+
   return (
     <div
-      className="min-w-[300px] max-w-[300px] rounded-lg p-3 bg-black/90 h-fit flex flex-col gap-2"
+      className={`min-w-[300px] max-w-[300px] rounded-lg p-3 bg-black/90 h-fit flex flex-col gap-2 ${
+        isOver ? "ring-2 ring-blue-500" : ""
+      }`}
       style={style}
       ref={setSortableRef}
     >
@@ -60,8 +73,20 @@ const List = ({ list }: Props) => {
           strategy={verticalListSortingStrategy}
         >
           {list.cards && list.cards.length > 0
-            ? list.cards.map((cardId) => <Card cardId={cardId} key={cardId} />)
+            ? list.cards.map((cardId, index) => (
+                <React.Fragment key={cardId}>
+                  {isOver &&
+                    overCardIndex === index &&
+                    active?.id !== over?.id &&
+                    ActiveCard}
+                  <Card cardId={cardId} key={cardId} />
+                </React.Fragment>
+              ))
             : null}
+          {isOver &&
+            overCardIndex === list.cards?.length &&
+            active?.id !== over?.id &&
+            ActiveCard}
         </SortableContext>
       </div>
     </div>
